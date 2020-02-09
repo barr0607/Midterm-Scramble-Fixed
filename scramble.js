@@ -129,11 +129,10 @@ console.log(help())
 // Show the game.activeWord again
 //
 
-
-10. The game will end if there are no more words in the list OR the player has received the maximum number of strikes
-// if [i] > words.lenght
-// Response: Congratulations! Game over
-// Display game.points
-// Display start()
-11. When the game ends the player total points should be displayed. 
-12. After the game ends the player should be able to start a new game using the`start()` function.
+// 10. The game will end if there are no more words in the list OR the player has received the maximum number of strikes
+// // if [i] > words.length
+// // Response: Congratulations! Game over
+// // Display game.points
+// // Display start()
+// 11. When the game ends the player total points should be displayed.
+// 12. After the game ends the player should be able to start a new game using the`start()` function.
