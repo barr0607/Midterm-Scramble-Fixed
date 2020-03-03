@@ -84,7 +84,6 @@ function start () {
     game.maxPasses = 3
     game.points = 0
     game.words = (words)
-    game.words = shuffle(game.words)
     game.activeWord = game.words.shift()
     game.activeScramble = shuffle(game.activeWord)
     console.warn('Good Luck! Your first word is:')
@@ -108,10 +107,11 @@ function guess (word) {
     console.warn('Your next word is:')
     return (`${shuffle(game.activeWord)}`)
   } else if (game.words.length === 0) {
-    console.warn('Congratulations! You are great')
+    console.warn(`Congratulations! You are great!  Your Score is ${game.points}`)
     game.active = false
     return ('Start() a new game.')
   } else if (word.toLowerCase !== game.activeWord && game.maxStrikes > 1) {
+    game.strikes += 1
     console.warn(`Wrong! You have more: ${game.maxStrikes -= 1} strikes left`)
     return game.activeScramble
   } else if (game.maxStrikes <= 1) {
@@ -136,7 +136,7 @@ function guess (word) {
 function pass () {
   if (game.active === false) {
     console.warn('There is no current game')
-    console.warn('Use the start() to start a new game')
+    return ('Use the start() to start a new game')
   } else if (game.maxPasses > 1) {
     console.warn(`You used a pass! You have ${game.maxPasses -= 1} more passes left`)
     game.words.splice(0, 1)
