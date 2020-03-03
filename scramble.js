@@ -60,51 +60,67 @@ console.log(help())
 
 /*******/
 // Create a Array of words, must contain at least 10 words
-// words = []
+let words = ['blue', 'yellow', 'red', 'green', 'black', 'purple', 'brown', 'orange', 'white', 'pink']
 
 // Create a game object to hold game status
-// game{}
-//     1. The game active status
-// active: Boolean
+let game = {
+  active: false,
+  words: [],
+  activeWord: ' ',
+  activeScramble: ' ',
+  strikes: 0,
+  maxStrikes: 3,
+  passes: 0,
+  maxPasses: 3,
+  points: 0
+}
 
-//     2. The random list of words
-// words: array (shuffled)
+function start () {
+  if (game.active === false) {
+    game.active = true
+    game.strikes = 0
+    game.maxStrikes = 3
+    game.passes = 0
+    game.maxPasses = 3
+    game.points = 0
+    game.words = (words)
+    game.words = shuffle(game.words)
+    game.activeWord = game.words.shift()
+    game.activeScramble = shuffle(game.activeWord)
+    console.warn('Good Luck! Your first word is:')
+    return game.activeScramble
+  } else {
+    console.warn('You already have a game started')
+  }
+}
 
-//     3. The current word
-// activeWord: string
+function guess (word) {
+  let attempt = game.strikes
 
-//     4. The current scrambled word
-// activeScramble word: string (shuffled)
+  if (game.active === false) {
+    console.warn('There is no current game')
+    return ('Use the start() to start a new game')
+  } else if (word.toLowerCase() === game.activeWord) {
+    console.warn(`Correct! Current score is: ${game.points += 1}`)
+    game.words.shift()
+    game.words = (words)
+    game.activeWord = game.words[0]
+    console.warn('Your next word is:')
+    return (`${shuffle(game.activeWord)}`)
+  } else if (game.words.length === 0) {
+    console.warn('Congratulations! You are great')
+    game.active = false
+    return ('Start() a new game.')
+  } else if (word.toLowerCase !== game.activeWord && game.maxStrikes > 1) {
+    console.warn(`Wrong! You have more: ${game.maxStrikes -= 1} strikes left`)
+    return game.activeScramble
+  } else if (game.maxStrikes <= 1) {
+    console.warn(`You are out of strikes. Game Over! Your Score is ${game.points} `)
+    game.active = false
+    return ('Start() a new game.')
+  }
+}
 
-//     5. The number of strikes
-// strikes: number
-
-//     6. The number of points
-// points: number
-
-//     7. The maximum number of allowed strikes
-// maxStrikes: number
-
-//     8. The number of passes used
-// passes: number
-
-//     9. The maximum number of passes
-// maxPasses: number
-
-// start()
-// 1. Reset all the game status properties
-// Check if game.active is false
-// Set game.active status to true
-// Set game.points to 0
-// Set game.strikes to 0
-// Set game.passes to start number
-// Set game list of words to words array using the shuffled function
-// Use shift() or splice() to get the first word off of the game list of words
-// Use shuffle() to get scramble word and save to game
-// response: scrambled word
-// else - Response: a game has already started
-
-// guess()
 // Create a variable attempt for the player guesses
 // if attempt == game.activeWord  - Case should not matter.
 // Response: increase de game.point by 1
@@ -116,6 +132,23 @@ console.log(help())
 // if game.strikes === 3
 // Response: Game over.
 // Display start() again.
+
+function pass () {
+  if (game.active === false) {
+    console.warn('There is no current game')
+    console.warn('Use the start() to start a new game')
+  } else if (game.maxPasses > 1) {
+    console.warn(`You used a pass! You have ${game.maxPasses -= 1} more passes left`)
+    game.words.splice(0, 1)
+    game.words = (words)
+    game.activeWord = game.words[0]
+    console.warn('Your next word is:')
+    return (shuffle(game.activeWord))
+  } else {
+    console.warn('You do not have more passes')
+    return game.activeScramble
+  }
+}
 
 // pass() will be used by the player to skip a word and will do the following:
 // Check if game.active is false
@@ -130,7 +163,7 @@ console.log(help())
 //
 
 // 10. The game will end if there are no more words in the list OR the player has received the maximum number of strikes
-// // if [i] > words.length
+// // if [i] > game.words.length
 // // Response: Congratulations! Game over
 // // Display game.points
 // // Display start()
